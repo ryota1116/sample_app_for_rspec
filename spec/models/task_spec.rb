@@ -8,28 +8,24 @@ RSpec.describe Task, type: :model do
   end
 
   it 'titleが存在しない場合無効であること' do
-    task = FactoryBot.build(:task, title: nil)
-    task.valid?
-    expect(task.errors[:title]).to include("can't be blank")
+    task = build(:task, title: nil)
+    expect(task).to be_invalid
   end
 
   it 'statusが存在しない場合無効であること' do
-    task = FactoryBot.build(:task, status: nil)
-    task.valid?
-    expect(task.errors[:status]).to include("can't be blank")
+    task = build(:task, status: nil)
+    expect(task).to be_invalid
   end
 
   it 'titleが重複する場合無効であること' do
-    task = FactoryBot.create(:task, title: 'タイトル')
-    task2 = FactoryBot.build(:task, title: 'タイトル')
-    task2.valid?
-    expect(task2.errors[:title]).to include('has already been taken')
+    task = create(:task, title: 'タイトル')
+    other_task = build(:task, title: 'タイトル')
+    expect(other_task).to be_invalid
   end
 
   it 'titleが重複しない場合有効であること' do
-    task = FactoryBot.create(:task, title: 'タイトル')
-    task2 = FactoryBot.build(:task, title: 'タイトル2')
-    task2.valid?
-    expect(task2).to be_valid
+    task = create(:task, title: 'タイトル')
+    other_task = build(:task, title: 'タイトル2')
+    expect(other_task).to be_valid
   end
 end
