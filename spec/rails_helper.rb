@@ -6,6 +6,7 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -64,4 +65,6 @@ RSpec.configure do |config|
 
   # 各テストコードから、FactoryBotという記述を省略可能にする
   config.include FactoryBot::Syntax::Methods
+
+  # include Sorcery::TestHelpers::Rails::System
 end
