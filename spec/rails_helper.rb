@@ -66,5 +66,5 @@ RSpec.configure do |config|
   # 各テストコードから、FactoryBotという記述を省略可能にする
   config.include FactoryBot::Syntax::Methods
 
-  # include Sorcery::TestHelpers::Rails::System
+  # config.include Sorcery::TestHelpers::Rails::System
 end
