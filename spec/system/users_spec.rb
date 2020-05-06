@@ -113,7 +113,7 @@ RSpec.describe 'Users', type: :system do
       end
     end
 
-    context '他のユーザーの編集ページにアクセス' do
+    context '他のユーザーのユーザー編集ページにアクセス' do
       it 'アクセスに失敗すること' do
         visit edit_user_path(other_user)
 
