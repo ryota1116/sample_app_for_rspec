@@ -37,10 +37,10 @@ RSpec.describe 'Users', type: :system do
     end
 
     context '登録済メールアドレスを入力した場合' do
+      let!(:user) { create(:user) }
       it '新規作成に失敗すること' do
-        @user = create(:user)
         expect{
-          fill_in 'Email', with: @user.email
+          fill_in 'Email', with: user.email
           fill_in 'Password', with: 'password'
           fill_in 'Password confirmation', with: 'password'
           click_button 'SignUp'
@@ -62,6 +62,63 @@ RSpec.describe 'Users', type: :system do
           expect(page).to have_selector 'h1', text: 'SignUp'
           expect(page).to have_content 'Password is too short (minimum is 3 characters)'
         }.to_not change{ User.count }
+      end
+    end
+  end
+
+  describe 'ユーザーの編集' do
+    let!(:user) { create(:user) }
+    let!(:other_user) { create(:user) }
+
+    before do
+      login(user)
+      click_link 'Mypage'
+      click_link 'Edit'
+    end
+
+    context 'フォームの入力が正常の場合' do
+      it 'ユーザーの編集に成功すること' do
+        fill_in 'Email', with: 'edit@example.com'
+        fill_in 'Password', with: 'password'
+        fill_in 'Password confirmation', with: 'password'
+        click_button 'Update'
+
+        expect(current_path).to eq user_path(user)
+        expect(page).to have_content 'User was successfully updated.'
+        expect(page).to have_content 'edit@example.com'
+      end
+    end
+
+    context 'メールアドレスが未入力の場合' do
+      it 'ユーザーの編集に失敗すること' do
+        fill_in 'Email', with: nil
+        fill_in 'Password', with: 'password'
+        fill_in 'Password confirmation', with: 'password'
+        click_button 'Update'
+
+        expect(page).to have_selector 'h1', text: 'Editing User'
+        expect(page).to have_content "Email can't be blank"
+      end
+    end
+
+    context '登録済メールアドレスを入力した場合' do
+      it 'ユーザーの編集に失敗すること' do
+        fill_in 'Email', with: other_user.email
+        fill_in 'Password', with: 'password'
+        fill_in 'Password confirmation', with: 'password'
+        click_button 'Update'
+
+        expect(page).to have_selector 'h1', text: 'Editing User'
+        expect(page).to have_content 'Email has already been taken'
+      end
+    end
+
+    context '他のユーザーの編集ページにアクセス' do
+      it 'アクセスに失敗すること' do
+        visit edit_user_path(other_user)
+
+        expect(current_path).to eq user_path(user)
+        expect(page).to have_content "Forbidden access."
       end
     end
   end

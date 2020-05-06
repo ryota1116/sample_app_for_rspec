@@ -65,6 +65,6 @@ RSpec.configure do |config|
 
   # 各テストコードから、FactoryBotという記述を省略可能にする
   config.include FactoryBot::Syntax::Methods
-
-  # config.include Sorcery::TestHelpers::Rails::System
+  # spec/support/配下のファイル
+  config.include LoginMacros
 end
