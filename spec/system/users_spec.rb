@@ -15,7 +15,6 @@ RSpec.describe 'Users', type: :system do
         fill_in 'Password', with: 'password'
         fill_in 'Password confirmation', with: 'password'
         click_button 'SignUp'
-
         expect(current_path).to eq login_path
         expect(page).to have_content 'User was successfully created.'
         }.to change{ User.count }.by(1)
@@ -29,7 +28,6 @@ RSpec.describe 'Users', type: :system do
         fill_in 'Password', with: 'password'
         fill_in 'Password confirmation', with: 'password'
         click_button 'SignUp'
-
         expect(page).to have_selector 'h1', text: 'SignUp'
         expect(page).to have_content "Email can't be blank"
         }.to_not change{ User.count }
@@ -44,7 +42,6 @@ RSpec.describe 'Users', type: :system do
           fill_in 'Password', with: 'password'
           fill_in 'Password confirmation', with: 'password'
           click_button 'SignUp'
-
           expect(page).to have_selector 'h1', text: 'SignUp'
           expect(page).to have_content 'Email has already been taken'
         }.to_not change{ User.count }
@@ -58,7 +55,6 @@ RSpec.describe 'Users', type: :system do
           fill_in 'Password', with: 'ps'
           fill_in 'Password confirmation', with: 'ps'
           click_button 'SignUp'
-
           expect(page).to have_selector 'h1', text: 'SignUp'
           expect(page).to have_content 'Password is too short (minimum is 3 characters)'
         }.to_not change{ User.count }
@@ -82,7 +78,6 @@ RSpec.describe 'Users', type: :system do
         fill_in 'Password', with: 'password'
         fill_in 'Password confirmation', with: 'password'
         click_button 'Update'
-
         expect(current_path).to eq user_path(user)
         expect(page).to have_content 'User was successfully updated.'
         expect(page).to have_content 'edit@example.com'
@@ -95,7 +90,6 @@ RSpec.describe 'Users', type: :system do
         fill_in 'Password', with: 'password'
         fill_in 'Password confirmation', with: 'password'
         click_button 'Update'
-
         expect(page).to have_selector 'h1', text: 'Editing User'
         expect(page).to have_content "Email can't be blank"
       end
@@ -107,7 +101,6 @@ RSpec.describe 'Users', type: :system do
         fill_in 'Password', with: 'password'
         fill_in 'Password confirmation', with: 'password'
         click_button 'Update'
-
         expect(page).to have_selector 'h1', text: 'Editing User'
         expect(page).to have_content 'Email has already been taken'
       end
@@ -116,7 +109,6 @@ RSpec.describe 'Users', type: :system do
     context '他のユーザーのユーザー編集ページにアクセス' do
       it 'アクセスに失敗すること' do
         visit edit_user_path(other_user)
-
         expect(current_path).to eq user_path(user)
         expect(page).to have_content "Forbidden access."
       end
@@ -125,7 +117,6 @@ RSpec.describe 'Users', type: :system do
 
   describe 'マイページ' do
     let!(:user) { create(:user) }
-
     it '自分が新規作成したタスクが表示されること' do
       login(user)
       click_link 'New Task'

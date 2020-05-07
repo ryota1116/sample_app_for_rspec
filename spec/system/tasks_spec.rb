@@ -4,7 +4,6 @@ RSpec.describe "Tasks", type: :system do
   describe 'タスクの新規作成' do
     let!(:user) { create(:user) }
     before { login(user) }
-
     context 'フォームの入力が正常の場合' do
       it 'タスクの作成に成功すること' do
         expect {
@@ -12,7 +11,6 @@ RSpec.describe "Tasks", type: :system do
           fill_in 'Title', with: 'タスクのタイトル'
           select 'todo', from: 'Status'
           click_button 'Create Task'
-
           expect(page).to have_content 'タスクのタイトル'
           expect(page).to have_content 'Task was successfully created.'
         }.to change{ user.tasks.count }.by(1)
@@ -23,7 +21,6 @@ RSpec.describe "Tasks", type: :system do
       it 'タスクの作成に失敗すること' do
         click_link 'New Task'
         click_button 'Create Task'
-
         expect(page).to have_selector 'h1', text: 'New Task'
         expect(page).to have_content "Title can't be blank"
       end
@@ -35,14 +32,12 @@ RSpec.describe "Tasks", type: :system do
     let!(:other_user) { create(:user) }
     let!(:task) { create(:task, title: 'タイトル', user: user) }
     let!(:other_task) { create(:task, user: other_user) }
-
     context 'フォームの入力が正常の場合' do
       it 'タスクの編集に成功すること' do
         login(user)
         click_link 'Edit'
         fill_in 'Title', with: '新しいタイトル'
         click_button 'Update Task'
-
         expect(current_path).to eq task_path(task)
         expect(page).to have_content '新しいタイトル'
         expect(page).to have_content 'Task was successfully updated.'
@@ -55,7 +50,6 @@ RSpec.describe "Tasks", type: :system do
         click_link 'Edit'
         fill_in 'Title', with: nil
         click_button 'Update Task'
-
         expect(page).to have_selector 'h1', text: 'Editing Task'
         expect(page).to have_content "Title can't be blank"
       end
