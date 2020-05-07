@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe "Tasks", type: :system do
   describe 'タスクの新規作成' do
     let!(:user) { create(:user) }
-    before do
-      login(user)
-    end
+    before { login(user) }
 
     context 'フォームの入力が正常の場合' do
       it 'タスクの作成に成功すること' do
