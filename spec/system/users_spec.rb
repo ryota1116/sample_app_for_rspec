@@ -122,4 +122,18 @@ RSpec.describe 'Users', type: :system do
       end
     end
   end
+
+  describe 'マイページ' do
+    let!(:user) { create(:user) }
+
+    it '自分が新規作成したタスクが表示されること' do
+      login(user)
+      click_link 'New Task'
+      fill_in 'Title', with: 'タスクのタイトル'
+      select 'todo', from: 'Status'
+      click_button 'Create Task'
+      expect(page).to have_content 'タスクのタイトル'
+      expect(page).to have_content 'todo'
+    end
+  end
 end

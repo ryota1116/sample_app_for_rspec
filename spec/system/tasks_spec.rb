@@ -28,16 +28,8 @@ RSpec.describe "Tasks", type: :system do
 
         expect(page).to have_selector 'h1', text: 'New Task'
         expect(page).to have_content "Title can't be blank"
-        # expect(page).to have_content "Status can't be blank"
       end
     end
-
-    context 'ログインしていないユーザーの場合' do
-      it 'タスクの新規作成ページにアクセスできないこと' do
-
-      end
-    end
-
   end
 
   describe 'タスクの編集' do

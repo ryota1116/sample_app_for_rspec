@@ -21,6 +21,7 @@ require 'capybara/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
+# spec/support/配下のファイルを読み込む
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
@@ -65,6 +66,12 @@ RSpec.configure do |config|
 
   # 各テストコードから、FactoryBotという記述を省略可能にする
   config.include FactoryBot::Syntax::Methods
-  # spec/support/配下のファイル
+  # spec/support/配下のModuleの読み込み
   config.include LoginMacros
+
+  config.before(:each) do |example|
+    if example.metadata[:type] == :system
+      driven_by :selenium_chrome_headless
+    end
+  end
 end
